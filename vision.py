@@ -7,12 +7,11 @@ import google.generativeai as genai
 from PIL import Image
 
 print(os.getenv("GOOGLE_API_KEY"))
-genai.configure(api_key="AIzaSyD-l11_8FKSih3yJScgkgWq0EYomo979ck")
+genai.configure(api_key="AIzaSyAnodEMZiFTrd-QaNq4ki9gw2zY8oGtC9c")
 model=genai.GenerativeModel("gemini-pro-vision")
 def get_gemini_response(input,image):
     if input!="":
         response=model.generate_content([input,image])
-
     else:
         response=model.generate_content(image)
     return response.text
@@ -20,8 +19,12 @@ def get_gemini_response(input,image):
 
 st.set_page_config(page_title="Description Extractor")
 
-st.header("Gemini Application")
-input=st.text_input("enter instruction: ",key="input")
+st.header("Scan your documents")
+# Fixed input
+input = "generate description of work from image in english translation "
+
+# Display the fixed input
+st.write(f"Instruction: {input}")
 
 uploaded_file = st.file_uploader("choose an image", type=["jpg", "jpeg", "png"])
 image=""
@@ -37,4 +40,5 @@ if submit:
 
   response=get_gemini_response(input,image)
   st.subheader("The response is")
+  
   st.write(response)
